@@ -1,0 +1,45 @@
+{
+    "Pokemon": [
+        {
+            "PutRequest": {
+                "Item": {
+                    "Name": {"S":"bisasam"},
+					"Number": {"N":"1"},
+                    "Types": { "SS":["pflanze","gift","normal"]},
+                    "Fangchance": {"N":"16"}
+                }
+            }
+        },
+		{
+            "PutRequest": {
+                "Item": {
+                    "Name": {"S":"rattfratz"},
+					"Number": {"N":"19"},
+					"Types": { "SS":["normal"]}					,
+                    "Fangchance": {"N":"40"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "Name": {"S":"pikachu"},
+					"Number": {"N":"25"},
+					"Types": { "SS":["elektro"]},
+                    "Fangchance": {"N":"16"}
+                }
+            }
+        },
+        {
+            "PutRequest": {
+                "Item": {
+                    "Name": {"S":"evoli"},
+					"Number": {"N":"122"},
+					"Types": { "SS":["normal"]},
+                    "Fangchance": {"N":"40"}
+                }
+            }
+        }
+	
+    ]
+}
