@@ -1,0 +1,4 @@
+name: SpigotBlankPlugin
+main: de.edittrich.spike.spigot.SpigotBlankPlugin
+version: 1.0
+commands:
