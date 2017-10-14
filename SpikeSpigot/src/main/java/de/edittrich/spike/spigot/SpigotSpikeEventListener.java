@@ -6,7 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class SpigotSpikeEventListener implements Listener {
-
 	private final SpigotSpikePlugin plugin;
 
 	public SpigotSpikeEventListener(SpigotSpikePlugin plugin) {
@@ -16,7 +15,7 @@ public class SpigotSpikeEventListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		
+
 		plugin.getLogger().info("Event: onPlayerJoin");
 
 		if (plugin.getConfig().getBoolean("youAreAwesome")) {
@@ -25,5 +24,4 @@ public class SpigotSpikeEventListener implements Listener {
 			player.sendMessage("You are not awesome...");
 		}
 	}
-
 }
