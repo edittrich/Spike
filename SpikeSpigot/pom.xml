@@ -24,7 +24,7 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.3.1</version>
 				<configuration>
-					<outputDirectory>D:/Documents/Workspaces/Git/Spigot/plugins</outputDirectory>
+					<outputDirectory>C:/Apps/Spigot/plugins</outputDirectory>
 				</configuration>
 			</plugin>
 		</plugins>

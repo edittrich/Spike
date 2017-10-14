@@ -1,4 +1,8 @@
-name: SpigotBlankPlugin
-main: de.edittrich.spike.spigot.SpigotBlankPlugin
+name: SpigotSpikePlugin
+main: de.edittrich.spike.spigot.SpigotSpikePlugin
 version: 1.0
 commands:
+  basic:
+    description: Writes a log 
+  cube:
+    description: Creates a cube    
