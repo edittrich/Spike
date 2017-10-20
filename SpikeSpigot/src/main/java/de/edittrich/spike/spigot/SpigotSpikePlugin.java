@@ -14,9 +14,9 @@ public class SpigotSpikePlugin extends JavaPlugin {
 
 		getLogger().info("onEnable has been invoked with youAreAwesome: " + config.getBoolean("youAreAwesome"));
 
-		this.getCommand("basic").setExecutor(new SpigotSpikeCommandExecutor(this));
-		this.getCommand("cube").setExecutor(new SpigotSpikeCommandExecutor(this));
+		this.getCommand("basic").setExecutor(new SpigotSpikeCommandExecutorBasic(this));
+		this.getCommand("cube").setExecutor(new SpigotSpikeCommandExecutorCube(this));
 
-		getServer().getPluginManager().registerEvents(new SpigotSpikeEventListener(this), this);
+		getServer().getPluginManager().registerEvents(new SpigotSpikeEventListenerOnPlayerJoin(this), this);
 	}
 }

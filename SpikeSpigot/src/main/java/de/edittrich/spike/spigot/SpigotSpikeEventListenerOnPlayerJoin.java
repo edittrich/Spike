@@ -5,10 +5,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class SpigotSpikeEventListener implements Listener {
+public class SpigotSpikeEventListenerOnPlayerJoin implements Listener {
 	private final SpigotSpikePlugin plugin;
 
-	public SpigotSpikeEventListener(SpigotSpikePlugin plugin) {
+	public SpigotSpikeEventListenerOnPlayerJoin(SpigotSpikePlugin plugin) {
 		this.plugin = plugin;
 	}
 

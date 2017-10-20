@@ -9,10 +9,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class SpigotSpikeCommandExecutor implements CommandExecutor {
+public class SpigotSpikeCommandExecutorBasic implements CommandExecutor {
 	private final SpigotSpikePlugin plugin;
 
-	public SpigotSpikeCommandExecutor(SpigotSpikePlugin plugin) {
+	public SpigotSpikeCommandExecutorBasic(SpigotSpikePlugin plugin) {
 		this.plugin = plugin;
 	}
 
