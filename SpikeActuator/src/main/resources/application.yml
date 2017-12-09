@@ -2,7 +2,7 @@ server:
   port: 8443
   ssl:
     enabled: true  
-    key-store: edittrich.jks
+    key-store: selfsigned.jks
     key-store-password: mypassword    
     keyStoreType: JKS
 
