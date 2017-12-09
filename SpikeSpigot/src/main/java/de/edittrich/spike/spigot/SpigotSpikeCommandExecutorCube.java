@@ -36,7 +36,7 @@ public class SpigotSpikeCommandExecutorCube implements CommandExecutor {
 				Location loc = player.getLocation();
 				int length = 5;
 
-				int x1 = loc.getBlockX() + config.getInt("shift", 1);
+				int x1 = loc.getBlockX() + config.getInt("shift", 3);
 				int y1 = loc.getBlockY();
 				int z1 = loc.getBlockZ();
 
