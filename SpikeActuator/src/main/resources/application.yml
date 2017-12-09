@@ -1,0 +1,20 @@
+server:
+  port: 8443
+  ssl:
+    enabled: true  
+    key-store: edittrich.jks
+    key-store-password: mypassword    
+    keyStoreType: JKS
+
+management:
+  port: 8080
+  address: 127.0.0.1
+  security:
+    enabled: false
+  ssl:
+    enabled: false
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    de.edittrich: DEBUG
