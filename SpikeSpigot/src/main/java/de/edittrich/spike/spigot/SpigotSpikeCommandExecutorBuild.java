@@ -22,8 +22,6 @@ public class SpigotSpikeCommandExecutorBuild implements CommandExecutor {
 	private final FileConfiguration config;
 	private final Logger logger;
 
-	private String stable1[][] = { { "1", "2" }, { "2", "3" }, { "3", "4" } };
-
 	public SpigotSpikeCommandExecutorBuild(SpigotSpikePlugin plugin) {
 		this.plugin = plugin;
 		this.config = plugin.getConfig();
@@ -40,12 +38,11 @@ public class SpigotSpikeCommandExecutorBuild implements CommandExecutor {
 
 			} else {
 				int i = 1;
-				BufferedReader bufferedReader = null;
 				String buildingFile = "building";
 				String line = null;
 				String[] segments = null;
 
-				Block currentBlock = null;				
+				Block currentBlock = null;
 				Player player = (Player) sender;
 				Location loc = player.getLocation();
 				int x1 = loc.getBlockX() + config.getInt("shift", 3);
@@ -61,37 +58,33 @@ public class SpigotSpikeCommandExecutorBuild implements CommandExecutor {
 				while (file.exists() && !file.isDirectory()) {
 					logger.info("Level " + i + " & yPoint " + yPoint);
 
-					try {
-						try {
-							bufferedReader = new BufferedReader(new FileReader(file));
-							zPoint = z1;
-							while ((line = bufferedReader.readLine()) != null) {
-								logger.info("Line " + line + " & zPoint " + zPoint);
-								segments = line.split(Pattern.quote(" "));
-								xPoint = x1;
-								for (int c = 0; c < segments.length; c++) {
-									logger.info("c " + c + " & xPoint " + xPoint);
-									currentBlock = world.getBlockAt(xPoint, yPoint, zPoint);
-									switch (segments[c]) {
-									case "Di":
-										System.out.println("Diamant");
-										currentBlock.setType(Material.DIAMOND_BLOCK);									
-										break;
-									case "..":
-										System.out.println("Luft");
-										currentBlock.setType(Material.AIR);
-										break;
-									}
-									xPoint++;
+					try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+						zPoint = z1;
+						while ((line = bufferedReader.readLine()) != null) {
+							logger.info("Line " + line + " & zPoint " + zPoint);
+							segments = line.split(Pattern.quote(" "));
+							xPoint = x1;
+							for (int c = 0; c < segments.length; c++) {
+								logger.info("c " + c + " & xPoint " + xPoint);
+								currentBlock = world.getBlockAt(xPoint, yPoint, zPoint);
+								switch (segments[c]) {
+								case "Di":
+									System.out.println("Diamant");
+									currentBlock.setType(Material.DIAMOND_BLOCK);
+									break;
+								case "..":
+									System.out.println("Luft");
+									currentBlock.setType(Material.AIR);
+									break;
+								default:
+									break;
 								}
-								zPoint++;
+								xPoint++;
 							}
-							bufferedReader.close();
-						} finally {
-							bufferedReader.close();
-						} 
+							zPoint++;
+						}
 					} catch (IOException e) {
-						System.err.println("IO Exception!");
+						logger.severe("IO Exception!");
 					}
 
 					file = new File(buildingFile + ++i);
