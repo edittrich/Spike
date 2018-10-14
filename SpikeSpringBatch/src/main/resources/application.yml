@@ -1,0 +1,16 @@
+logging:
+  pattern:
+    console: "%msg%n"
+  level:
+    org.springframework: info
+    de.edittrich: info
+
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+  jms:
+    template:
+      default-destination: person-queue
+      receive-timeout: 2s
