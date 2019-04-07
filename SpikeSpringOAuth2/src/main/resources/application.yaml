@@ -1,0 +1,39 @@
+dbapi:
+  client:
+    clientId: <clientId>
+    clientSecret: <clientSecret>
+    accessTokenUri: https://simulator-api.db.com/gw/oidc/token
+    userAuthorizationUri:  https://simulator-api.db.com/gw/oidc/authorize
+    tokenName: access_token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+    scope:  read_additional_personal_data, read_credit_card_transactions, read_accounts_list, read_addresses, openid, read_accounts, buy_securities, age_certificate, read_security_accounts_list, read_transactions, verify_customer, sell_securities, read_partners_legi, read_credit_cards_list_with_details, read_security_transactions, offline_access, transaction_certificate, read_assets, read_performances, read_partners 
+  resource:
+    userInfoUri: https://simulator-api.db.com/gw/oidc/userinfo
+
+netid:
+  client:
+    clientId: <clientId>
+    clientSecret: <clientSecret>
+    accessTokenUri: https://broker.netid.de/token
+    userAuthorizationUri:  https://broker.netid.de/authorize
+    tokenName: access_token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+    scope: openid
+    claims: {"userinfo":{"given_name":{"essential":true},"family_name":{"essential":true}}}
+  resource:
+    userInfoUri: https://broker.netid.de/userinfo i
+
+server:
+  port: 8443
+  ssl:
+    enabled: true  
+    key-store: selfsigned.jks
+    key-store-password: mypassword    
+    keyStoreType: JKS
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    de.edittrich: DEBUG
