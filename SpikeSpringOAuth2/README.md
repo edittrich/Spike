@@ -1,3 +1,5 @@
+https://broker.netid.de/.well-known/openid-configuration
+
 [[_social_login_manual]]
 = Manual Configuration of OAuth2 Client
 
