@@ -18,8 +18,8 @@ netid:
     accessTokenUri: https://broker.netid.de/token
     userAuthorizationUri:  https://broker.netid.de/authorize
     tokenName: access_token
-    authenticationScheme: query
-    clientAuthenticationScheme: form
+    authenticationScheme: header
+    clientAuthenticationScheme: header
     scope: openid
     claims: {"userinfo":{"given_name":{"essential":true},"family_name":{"essential":true}}}
   resource:
