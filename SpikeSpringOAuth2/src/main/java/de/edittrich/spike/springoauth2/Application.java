@@ -16,6 +16,8 @@
 package de.edittrich.spike.springoauth2;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.Filter;
 
@@ -33,7 +35,7 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+//import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
@@ -41,6 +43,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.filter.CompositeFilter;
 
 @SpringBootApplication
 @RestController
@@ -50,8 +53,9 @@ public class Application extends WebSecurityConfigurerAdapter {
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
 
-	@Autowired
-	private ClientRegistrationRepository clientRegistrationRepository;
+	/*
+	 * @Autowired private ClientRegistrationRepository clientRegistrationRepository;
+	 */
 
 	@RequestMapping("/user")
 	public Principal user(Principal principal) {
@@ -92,15 +96,42 @@ public class Application extends WebSecurityConfigurerAdapter {
 	}
 
 	private Filter ssoFilter() {
+		CompositeFilter filter = new CompositeFilter();
+		List<Filter> filters = new ArrayList<>();
+
+		OAuth2ClientAuthenticationProcessingFilter dbapiFilter = new OAuth2ClientAuthenticationProcessingFilter(
+				"/login/dbapi");
+		OAuth2RestTemplate dbapiTemplate = new OAuth2RestTemplate(dbapi(), oauth2ClientContext);
+		dbapiFilter.setRestTemplate(dbapiTemplate);
+		UserInfoTokenServices tokenServices = new UserInfoTokenServices(dbapiResource().getUserInfoUri(),
+				dbapi().getClientId());
+		tokenServices.setRestTemplate(dbapiTemplate);
+		dbapiFilter.setTokenServices(tokenServices);
+		filters.add(dbapiFilter);
+
 		OAuth2ClientAuthenticationProcessingFilter netidFilter = new OAuth2ClientAuthenticationProcessingFilter(
 				"/login/netid");
 		OAuth2RestTemplate netidTemplate = new OAuth2RestTemplate(netid(), oauth2ClientContext);
 		netidFilter.setRestTemplate(netidTemplate);
-		UserInfoTokenServices tokenServices = new UserInfoTokenServices(netidResource().getUserInfoUri(),
-				netid().getClientId());
+		tokenServices = new UserInfoTokenServices(netidResource().getUserInfoUri(), netid().getClientId());
 		tokenServices.setRestTemplate(netidTemplate);
 		netidFilter.setTokenServices(tokenServices);
-		return netidFilter;
+		filters.add(netidFilter);
+
+		filter.setFilters(filters);
+		return filter;
+	}
+
+	@Bean
+	@ConfigurationProperties("dbapi.client")
+	public AuthorizationCodeResourceDetails dbapi() {
+		return new AuthorizationCodeResourceDetails();
+	}
+
+	@Bean
+	@ConfigurationProperties("dbapi.resource")
+	public ResourceServerProperties dbapiResource() {
+		return new ResourceServerProperties();
 	}
 
 	@Bean
