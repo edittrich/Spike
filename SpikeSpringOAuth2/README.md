@@ -1,5 +1,9 @@
 https://broker.netid.de/.well-known/openid-configuration
 
+https://www.baeldung.com/spring-security-custom-oauth-requests
+
+https://docs.spring.io/spring-security/site/docs/current/reference/html5/
+
 [[_social_login_manual]]
 = Manual Configuration of OAuth2 Client
 

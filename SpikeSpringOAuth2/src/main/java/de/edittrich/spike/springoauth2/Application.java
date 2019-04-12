@@ -33,6 +33,7 @@ import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
@@ -49,6 +50,9 @@ public class Application extends WebSecurityConfigurerAdapter {
 	@Autowired
 	OAuth2ClientContext oauth2ClientContext;
 
+	@Autowired
+	private ClientRegistrationRepository clientRegistrationRepository;
+
 	@RequestMapping("/user")
 	public Principal user(Principal principal) {
 		return principal;
@@ -57,12 +61,20 @@ public class Application extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
-		http.antMatcher("/**").authorizeRequests().antMatchers("/", "/login**", "/webjars/**", "/error**").permitAll().anyRequest()
-				.authenticated().and().exceptionHandling()
-				.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/")).and().logout()
-				.logoutSuccessUrl("/").permitAll().and().csrf()
+		http.antMatcher("/**").authorizeRequests().antMatchers("/", "/login**", "/webjars/**", "/error**").permitAll()
+				.anyRequest().authenticated().and().exceptionHandling()
+				.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
+				/*
+				 * .and().oauth2Login().authorizationEndpoint()
+				 * .authorizationRequestResolver(new
+				 * CustomAuthorizationRequestResolver(this.clientRegistrationRepository,
+				 * "/oauth2/authorization"))
+				 */
+				.and().logout().logoutSuccessUrl("/").permitAll().and().csrf()
 				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
-				.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+				.addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
+
+		;
 		// @formatter:on
 	}
 
@@ -71,7 +83,8 @@ public class Application extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public FilterRegistrationBean<OAuth2ClientContextFilter> oauth2ClientFilterRegistration(OAuth2ClientContextFilter filter) {
+	public FilterRegistrationBean<OAuth2ClientContextFilter> oauth2ClientFilterRegistration(
+			OAuth2ClientContextFilter filter) {
 		FilterRegistrationBean<OAuth2ClientContextFilter> registration = new FilterRegistrationBean<OAuth2ClientContextFilter>();
 		registration.setFilter(filter);
 		registration.setOrder(-100);
