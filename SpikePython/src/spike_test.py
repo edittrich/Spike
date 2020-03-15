@@ -1,6 +1,3 @@
-""" https://www.python-kurs.eu/python3_tests.php """
-
-
 def fib(n):
     a, b = 0, 1
     for i in range(n):
